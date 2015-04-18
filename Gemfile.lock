@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    cinch (2.2.5)
+    facets (3.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cinch
+  facets

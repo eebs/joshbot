@@ -1,0 +1,11 @@
+---
+server: irc.gamesurge.net
+channels:
+-   '#eebstest'
+nick: kbot
+user: kbot
+realname: kbot
+plugins:
+    plugins:
+    -   Huggle
+...
