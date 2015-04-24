@@ -52,8 +52,7 @@ class Bucket
     factoid = m.action? ? m.action_message : m.message
     return unless factoid
 
-    slug = Fact.slug(factoid)
-    return unless fact = Fact.random(slug)
+    return unless fact = Fact.random(factoid)
 
     case fact.verb
     when '<reply>'
