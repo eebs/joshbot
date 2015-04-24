@@ -6,9 +6,9 @@ class Bucket
   match /(.+) \<reply\> (.+)/,  method: :x_reply_y,   group: :bucket
   match /(.+) \<action\> (.+)/, method: :x_action_y,  group: :bucket
   match /(.+) \<(.+)\> (.+)/,   method: :x_verb_y,    group: :bucket
-  match /(.+) is (.{3,})/,         method: :x_is_y,      group: :bucket
+  match /(.+) is (.+)/,         method: :x_is_y,      group: :bucket
 
-  match //,                           method: :check_facts, group: :bucket, use_prefix: false, use_suffix: false
+  match //,                     method: :check_facts, group: :bucket, use_prefix: false, use_suffix: false
 
   def x_is_y(m, fact, tidbit)
     fact = Fact.new(fact: Fact.slug(fact), tidbit: tidbit, verb: 'is')
