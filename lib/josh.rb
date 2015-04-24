@@ -17,6 +17,7 @@ module Josh
 
     def boot!
       load_settings
+      load_database
       load_plugins
       start
     end
@@ -29,15 +30,30 @@ module Josh
 
     def load_settings
       begin
-        data = YAML.load(File.open("#{Josh::Config.root}/config/settings.yaml"))
+        data = YAML.load(File.open("#{Josh::Config.root}/config/settings.yml"))
         config.update(symbolize_keys_deep(data))
       rescue SystemCallError
-        raise "Couldn't find settings.yaml"
+        raise "Couldn't find settings.yml"
       end
     end
 
     def load_plugins
       Dir.glob("#{Josh::Config.root}/plugins/*/*.rb").each { |lib_file| require lib_file }
+    end
+
+    def load_database
+      db_file = "#{Josh::Config.root}/db/config.yml"
+      return unless File.file?(db_file)
+
+      Bundler.require(:database)
+
+      begin
+        config = YAML.load(File.open(db_file))['development']
+      rescue SystemCallError => e
+        raise "Couldn't find settings.yml"
+      end
+
+      ActiveRecord::Base.establish_connection(config)
     end
 
     def start
