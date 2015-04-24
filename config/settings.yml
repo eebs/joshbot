@@ -11,5 +11,5 @@ plugins:
     -   Bucket
     options:
         Bucket:
-            minimum_trigger_length: 6
+            minimum_trigger_length: 4
 ...

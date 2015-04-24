@@ -31,7 +31,11 @@ module Josh
     def load_settings
       begin
         data = YAML.load(File.open("#{Josh::Config.root}/config/settings.yml"))
-        config.update(symbolize_keys_deep(data))
+        # Symbolize the top level keys and the plugins keys
+        data = Hash[data.map{|(k,v)| [k.to_sym,v]}]
+        data[:plugins] = Hash[data[:plugins].map{|(k,v)| [k.to_sym, v]}]
+
+        config.update(data)
       rescue SystemCallError
         raise "Couldn't find settings.yml"
       end

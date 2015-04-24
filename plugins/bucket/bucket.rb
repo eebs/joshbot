@@ -12,8 +12,8 @@ class Bucket
 
   def initialize(*args)
     super
-
-    @minimum_trigger_length = config[:minimum_trigger_length] || 6
+    debug config['minimum_trigger_length'].inspect
+    @minimum_trigger_length = config['minimum_trigger_length'] || 6
   end
 
   def x_is_y(m, fact, tidbit)
@@ -58,11 +58,11 @@ class Bucket
 
     case fact.verb
     when '<reply>'
-      m.reply "#{fact.tidbit}"
+      m.reply apply_substitutions(fact.tidbit, m)
     when '<action>'
-      m.action_reply "#{fact.tidbit}"
+      m.action_reply apply_substitutions(fact.tidbit, m)
     else
-      m.reply "#{fact.fact} #{fact.verb} #{fact.tidbit}"
+      m.reply "#{fact.fact} #{fact.verb} #{apply_substitutions(fact.tidbit, m)}"
     end
   end
 
@@ -88,7 +88,7 @@ class Bucket
 
   def fact_for_message(m)
     if m.action?
-      m.action_messages
+      m.action_message
     else
       # If the message is prefixed with the bot's name, return the actual message
       /^@?#{m.bot.nick}: (.*)/.match(m.message) do |match|
@@ -96,5 +96,11 @@ class Bucket
       end
       m.message
     end
+  end
+
+  def apply_substitutions(message, m)
+    message
+      .gsub('$who', m.user.nick)
+      .gsub('$someone', User.random.nick)
   end
 end
