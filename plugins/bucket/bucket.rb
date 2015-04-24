@@ -76,7 +76,7 @@ class Bucket
       if /^@?#{m.bot.nick}: / =~ m.message
         true
       else
-        m.message.length >= @minimum_trigger_length
+        (m.message.length >= @minimum_trigger_length) || m.message == '...'
       end
     end
   end
