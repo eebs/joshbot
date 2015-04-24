@@ -13,7 +13,7 @@ class Bucket
   def initialize(*args)
     super
 
-    @minimum_length = config[:minimum_length] || 6
+    @minimum_trigger_length = config[:minimum_trigger_length] || 6
   end
 
   def x_is_y(m, fact, tidbit)
@@ -53,10 +53,8 @@ class Bucket
   end
 
   def check_facts(m)
-    factoid = m.action? ? m.action_message : m.message
-    return unless factoid && factoid.length >= @minimum_length
-
-    return unless fact = Fact.random(factoid)
+    return unless should_respond?(m)
+    return unless fact = Fact.random(fact_for_message(m))
 
     case fact.verb
     when '<reply>'
@@ -68,8 +66,30 @@ class Bucket
     end
   end
 
-  listen_to :message
-  def listen(m)
-    debug m.inspect
+  private
+
+  def should_respond?(m)
+    if m.action?
+      m.action_message.length >= @minimum_trigger_length
+    else
+      # If the message is prefixed with the bot's name always respond
+      if /^@?#{m.bot.nick}: / =~ m.message
+        true
+      else
+        m.message.length >= @minimum_trigger_length
+      end
+    end
+  end
+
+  def fact_for_message(m)
+    if m.action?
+      m.action_messages
+    else
+      # If the message is prefixed with the bot's name, return the actual message
+      /^@?#{m.bot.nick}: (.*)/.match(m.message) do |match|
+        return match.captures.first
+      end
+      m.message
+    end
   end
 end
