@@ -66,6 +66,11 @@ class Bucket
     end
   end
 
+  listen_to :channel, method: :users
+  def users(m)
+    User.find_or_create_by(nick: m.user.nick)
+  end
+
   private
 
   def should_respond?(m)
