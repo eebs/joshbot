@@ -10,6 +10,12 @@ class Bucket
 
   match //,                     method: :check_facts, group: :bucket, use_prefix: false, use_suffix: false
 
+  def initialize(*args)
+    super
+
+    @minimum_length = config[:minimum_length] || 6
+  end
+
   def x_is_y(m, fact, tidbit)
     fact = Fact.new(fact: Fact.slug(fact), tidbit: tidbit, verb: 'is')
     if fact.save
@@ -47,10 +53,8 @@ class Bucket
   end
 
   def check_facts(m)
-    debug m.inspect
-
     factoid = m.action? ? m.action_message : m.message
-    return unless factoid
+    return unless factoid && factoid.length >= @minimum_length
 
     return unless fact = Fact.random(factoid)
 

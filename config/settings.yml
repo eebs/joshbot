@@ -9,4 +9,7 @@ plugins:
     plugins:
     -   Huggle
     -   Bucket
+    options:
+        Bucket:
+            minimum_length: 6
 ...
