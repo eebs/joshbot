@@ -15,11 +15,12 @@ module Josh
       @config = Hash.new
     end
 
-    def boot!
+    def boot!(invoke = true)
       load_settings
       load_database
       load_plugins
-      start
+      start if invoke
+      self
     end
 
     def load_pre_config
