@@ -15,6 +15,8 @@ class Bucket
     debug config['minimum_trigger_length'].inspect
     @minimum_trigger_length = config['minimum_trigger_length'] || 6
     @ex_to_sex              = config['ex_to_sex'] || 10
+
+    @quiet = false
   end
 
   def x_is_y(m, fact, tidbit)
@@ -81,9 +83,26 @@ class Bucket
     end
   end
 
+  match /shut up/, method: :shut_up
+  def shut_up(m)
+    @quiet = true
+
+    # Start a 60 second timer that will set @quiet to false when finished
+    Timer(60, method: :shut_up_timer, shots: 1) do
+      @quiet = false
+      bot.channels.each do |channel|
+        channel.send("I'm back!")
+      end
+   end
+
+    m.reply "Okay #{m.user.nick}, I'll be back later"
+  end
+
   private
 
   def should_respond?(m)
+    return false if @quiet
+
     if m.action?
       m.action_message.length >= @minimum_trigger_length
     else
