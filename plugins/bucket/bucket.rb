@@ -74,7 +74,6 @@ class Bucket
     User.find_or_create_by(nick: m.user.nick)
   end
 
-
   match /\ ex/, method: :ex_to_sex, use_prefix: false
   def ex_to_sex(m)
     prng = Random.new
@@ -83,19 +82,21 @@ class Bucket
     end
   end
 
-  match /shut up/, method: :shut_up
-  def shut_up(m)
+  match /(?:shut up|go away)\s*(\d*)/, method: :shut_up
+  def shut_up(m, seconds)
+    return if @quiet
     @quiet = true
 
-    # Start a 60 second timer that will set @quiet to false when finished
-    Timer(60, method: :shut_up_timer, shots: 1) do
-      @quiet = false
-      bot.channels.each do |channel|
-        channel.send("I'm back!")
-      end
-   end
+    seconds = seconds.to_i
+    interval = (seconds < 1 || seconds > 86400) ? 3600 : seconds
 
-    m.reply "Okay #{m.user.nick}, I'll be back later"
+    # Start a timer that will set @quiet to false when finished
+    Timer(interval, method: :shut_up_timer, shots: 1) do
+      @quiet = false
+    end
+
+    av = ActionView::Base.new
+    m.reply "Okay #{m.user.nick}, I'll be back in #{av.time_ago_in_words(Time.now + interval)}"
   end
 
   private
