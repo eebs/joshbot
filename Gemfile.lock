@@ -34,7 +34,6 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  activesupport
   cinch
   facets
   nokogiri

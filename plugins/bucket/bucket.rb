@@ -12,7 +12,6 @@ class Bucket
 
   def initialize(*args)
     super
-    debug config['minimum_trigger_length'].inspect
     @minimum_trigger_length = config['minimum_trigger_length'] || 6
     @ex_to_sex              = config['ex_to_sex'] || 10
 
