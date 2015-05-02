@@ -9,6 +9,7 @@ plugins:
     plugins:
     -   Huggle
     -   Bucket
+    -   TeamFuncom
     options:
         Bucket:
             minimum_trigger_length: 4
