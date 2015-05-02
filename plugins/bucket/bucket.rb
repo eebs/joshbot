@@ -94,8 +94,7 @@ class Bucket
       @quiet = false
     end
 
-    av = ActionView::Base.new
-    m.reply "Okay #{m.user.nick}, I'll be back in #{av.time_ago_in_words(Time.now + interval)}"
+    m.reply "Okay #{m.user.nick}, I'll be back later"
   end
 
   private
