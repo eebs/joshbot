@@ -63,6 +63,11 @@ module Josh
 
     def start
       bot = Cinch::Bot.new
+      file = File.open("#{Josh::Config.root}/log/output.log", "a")
+      file.sync = true
+      file_logger = Cinch::Logger::FormattedLogger.new(file)
+      file_logger.level = :log
+      bot.loggers << file_logger
       bot.configure do |c|
         c.load config
       end
