@@ -18,6 +18,7 @@ GEM
     builder (3.2.2)
     cinch (2.2.5)
     facets (3.0.0)
+    httpclient (2.6.0.1)
     i18n (0.7.0)
     json (1.8.2)
     mini_portile (0.6.2)
@@ -36,5 +37,6 @@ DEPENDENCIES
   activerecord
   cinch
   facets
+  httpclient
   nokogiri
   sqlite3
