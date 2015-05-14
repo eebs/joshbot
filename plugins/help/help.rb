@@ -1,7 +1,7 @@
 class Help
   include Cinch::Plugin
 
-  match 'help'
+  match 'pixelhelp'
   def execute(m)
     m.reply "http://eebs.github.io/pixel"
   end
