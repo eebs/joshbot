@@ -22,7 +22,10 @@ class TeamFuncom
         deaths = (p>'deaths').text
         players << name + '[' + kills + '/' + deaths + ']'
     end
-    m.reply 'Players: ' + playerCount.to_s + "\n " + players.join(', ')
+    m.reply 'Players: ' + playerCount.to_s
+    if playerCount > 0
+      m.reply "\n " + players.join(', ')
+    end
   end
 
   match /awards?\s*(.+)?/, method: :awards
