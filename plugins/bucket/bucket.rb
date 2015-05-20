@@ -13,7 +13,6 @@ class Bucket
   def initialize(*args)
     super
     @minimum_trigger_length = config['minimum_trigger_length'] || 6
-    @ex_to_sex              = config['ex_to_sex'] || 10
 
     @quiet = false
   end
@@ -71,14 +70,6 @@ class Bucket
   listen_to :channel, method: :users
   def users(m)
     User.find_or_create_by(nick: m.user.nick)
-  end
-
-  match /\ ex/, method: :ex_to_sex, use_prefix: false
-  def ex_to_sex(m)
-    prng = Random.new
-    if prng.rand(100) < @ex_to_sex
-      m.reply m.message.gsub(' ex', ' sex')
-    end
   end
 
   match /(?:shut up|go away)\s*(\d*)/, method: :shut_up
