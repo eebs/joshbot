@@ -32,9 +32,10 @@ module Josh
     def load_settings
       begin
         data = YAML.load(File.open("#{Josh::Config.root}/config/settings.yml"))
-        # Symbolize the top level keys and the plugins keys
+        # Symbolize the top level, plugins, and ssl keys
         data = Hash[data.map{|(k,v)| [k.to_sym,v]}]
         data[:plugins] = Hash[data[:plugins].map{|(k,v)| [k.to_sym, v]}]
+        data[:ssl]     = Hash[data[:ssl].map{|(k,v)| [k.to_sym, v]}]
 
         config.update(data)
       rescue SystemCallError
