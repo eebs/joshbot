@@ -10,7 +10,7 @@ class TicketLinker
 
   def jira_client
     options = {
-      :username     => config['username']
+      :username     => config['username'],
       :password     => config['password'],
       :site         => config['site'],
       :context_path => config['context_path'],
