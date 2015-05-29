@@ -27,7 +27,7 @@ class TicketLinker
   end
 
   def match_expression
-    /((?:#{@project_keys.join('|')})-\d+)/
+    /((?:#{@project_keys.join('|')})-\d+)/i
   end
 
   def listen(m)
