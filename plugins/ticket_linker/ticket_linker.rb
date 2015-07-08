@@ -1,11 +1,16 @@
 class TicketLinker
   include Cinch::Plugin
 
+  attr_reader :jira
+  attr_reader :match_expression
+
   def initialize(*args)
     super
 
     @jira = jira_client
-    @project_keys = projects.collect { |p| p.key }
+
+    project_keys = projects.collect { |p| p.key }
+    @match_expression = /((?:#{project_keys.join('|')})-\d+)/i
   end
 
   def jira_client
@@ -20,19 +25,21 @@ class TicketLinker
     client = JIRA::Client.new(options)
   end
 
-  listen_to :channel
-
   def projects
-    @jira.Project.all
+    jira.Project.all
   end
 
-  def match_expression
-    /((?:#{@project_keys.join('|')})-\d+)/i
-  end
+  listen_to :channel
 
   def listen(m)
     m.message.scan(match_expression) do |match|
-        m.reply "https://modolabs.jira.com/browse/#{match.first}"
+      key   = match.first
+
+      begin
+        issue = jira.Issue.find(key)
+        m.reply "[#{issue.status.name}] #{issue.summary} https://modolabs.jira.com/browse/#{issue.key}"
+      rescue JIRA::HTTPError
+      end
     end
   end
 end
