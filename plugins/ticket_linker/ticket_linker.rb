@@ -29,7 +29,7 @@ class TicketLinker
     jira.Project.all
   end
 
-  listen_to :channel
+  listen_to :message
 
   def listen(m)
     m.message.scan(match_expression) do |match|
