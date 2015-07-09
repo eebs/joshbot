@@ -14,10 +14,14 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.3.8)
     arel (6.0.0)
     builder (3.2.2)
     cinch (2.2.6)
     facets (3.0.0)
+    httparty (0.13.5)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     httpclient (2.6.0.1)
     i18n (0.7.0)
     jira-ruby (0.1.14)
@@ -26,6 +30,7 @@ GEM
     json (1.8.3)
     mini_portile (0.6.2)
     minitest (5.7.0)
+    multi_xml (0.5.5)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
@@ -33,6 +38,10 @@ GEM
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    wunderground (1.2.0)
+      addressable
+      httparty (> 0.6.0)
+      json (> 1.4.0)
 
 PLATFORMS
   ruby
@@ -45,3 +54,4 @@ DEPENDENCIES
   jira-ruby
   nokogiri
   sqlite3
+  wunderground

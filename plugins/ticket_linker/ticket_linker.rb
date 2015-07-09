@@ -41,5 +41,15 @@ class TicketLinker
       rescue JIRA::HTTPError
       end
     end
+
+    if m.user.nick == 'zrice57'
+      w = Wunderground.new(config['wunderground'])
+      response = w.conditions_for('MA', 'Boston')
+      begin
+        pressure = response['current_observation']['pressure_in']
+        m.reply "Current pressure is #{pressure}"
+      rescue Exception
+      end
+    end
   end
 end
