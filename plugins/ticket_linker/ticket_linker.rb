@@ -32,6 +32,7 @@ class TicketLinker
   listen_to :message
 
   def listen(m)
+    matched = false
     m.message.scan(match_expression) do |match|
       key   = match.first
 
@@ -40,15 +41,18 @@ class TicketLinker
         m.reply "[#{issue.status.name}] #{issue.summary} https://modolabs.jira.com/browse/#{issue.key}"
       rescue JIRA::HTTPError
       end
+      matched = true
     end
 
-    if m.user.nick == 'zrice57'
-      w = Wunderground.new(config['wunderground'])
-      response = w.conditions_for('MA', 'Boston')
-      begin
-        pressure = response['current_observation']['pressure_in']
-        m.reply "Current pressure is #{pressure}"
-      rescue Exception
+    if matched
+      if m.user.nick == 'zrice57'
+        w = Wunderground.new(config['wunderground'])
+        response = w.conditions_for('MA', 'Boston')
+        begin
+          pressure = response['current_observation']['pressure_in']
+          m.reply "Current pressure is #{pressure}"
+        rescue Exception
+        end
       end
     end
   end
