@@ -38,7 +38,11 @@ class TicketLinker
 
       begin
         issue = jira.Issue.find(key)
-        m.reply "[#{issue.status.name}] #{issue.summary} https://modolabs.jira.com/browse/#{issue.key}"
+
+        assignee = issue.assignee ? issue.assignee.displayName : 'Unassigned'
+        reporter = issue.reporter.displayName
+
+        m.reply "<https://modolabs.jira.com/browse/#{issue.key}|#{issue.key}>: #{issue.summary} _#{issue.status.name}: #{assignee} via #{reporter}_"
       rescue JIRA::HTTPError
       end
       matched = true
