@@ -30,7 +30,7 @@ class TeamFuncom
 
   match /awards?\s*(.+)?/, method: :awards
   def awards(m, person)
-    name = person
+    name = person.strip
     # Use the sender's nick if they don't provide one
     name ||= m.user.nick
     output = ''
