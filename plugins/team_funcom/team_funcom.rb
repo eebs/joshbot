@@ -28,7 +28,7 @@ class TeamFuncom
     end
   end
 
-  match /awards?\s*(.+)?/, method: :awards
+  match /awards\s*(.*)/, method: :awards
   def awards(m, person)
     name = person.strip
     # Use the sender's nick if they don't provide one
