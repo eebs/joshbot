@@ -32,7 +32,9 @@ class TeamFuncom
   def awards(m, person)
     name = person.strip
     # Use the sender's nick if they don't provide one
-    name ||= m.user.nick
+    if name.empty?
+      name = m.user.nick
+    end
     output = ''
     player, count = @gameme.player(name)
 
