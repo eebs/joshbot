@@ -14,7 +14,7 @@ class Stocks
       symbolDetails = JSON.parse(result.content)
       if symbolDetails['list']['meta']['count'] == 1
         fields = symbolDetails['list']['resources'].first['resource']['fields']
-        m.reply fields['name'] +
+        m.reply CGI.unescapeHTML(fields['name']) +
           ": $%.2f" % fields['price'] +
           " ↕%.2f" % fields['change'] +
             "(%.1f%%)" % fields['chg_percent'] +
