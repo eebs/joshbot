@@ -1,5 +1,6 @@
 require 'ostruct'
 require 'yaml'
+require 'cgi'
 
 module Josh
 
