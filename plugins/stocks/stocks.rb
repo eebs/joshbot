@@ -21,7 +21,7 @@ class Stocks
             ": $%s ↕" % fields['l'] + #last price
             fields['c'] + #change
             "(%s%%)" % fields['cp'] + #change percent
-            " google.com/finance?q=#{fields['e']}%3A#{fields['t']}\n"
+            " http://google.com/finance?q=#{fields['e']}%3A#{fields['t']}\n"
         end
       else
         m.reply "No ticker found for symbol: #{symbols}\n"
