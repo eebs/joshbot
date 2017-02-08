@@ -1,13 +1,14 @@
 class TicketLinker
   include Cinch::Plugin
 
-  attr_reader :jira
+  attr_reader :jira, :github
   attr_reader :match_expression
 
   def initialize(*args)
     super
 
     @jira = jira_client
+    @github = github_client
 
     project_keys = projects.collect { |p| p.key }
     @match_expression = /((?:#{project_keys.join('|')})-\d+)/i
@@ -23,6 +24,10 @@ class TicketLinker
     }
 
     client = JIRA::Client.new(options)
+  end
+
+  def github_client
+    Octokit::Client.new access_token: config['github_access_token']
   end
 
   def projects
@@ -49,13 +54,21 @@ class TicketLinker
     end
 
     if matched
-      if m.user.nick == 'zrice57'
+      case m.user.nick
+      when 'zrice57'
         w = Wunderground.new(config['wunderground'])
         response = w.conditions_for('MA', 'Boston')
         begin
           pressure = response['current_observation']['pressure_in']
           m.reply "Current pressure is #{pressure}"
-        rescue Exception
+        rescue
+        end
+      when 'sonya'
+        begin
+          open_issues = github.repo('modolabs/wombat-bastion')[:open_issues_count]
+          count_thing = open_issues == 1 ? 'thing' : 'things'
+          "...also sonya has #{open_issues} #{count_thing} to do."
+        rescue
         end
       end
     end

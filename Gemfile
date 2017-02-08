@@ -6,6 +6,7 @@ gem 'nokogiri'
 gem 'httpclient'
 gem 'jira-ruby', :require => 'jira'
 gem 'wunderground'
+gem 'octokit'
 
 # Only loaded if a database.yml file exists
 group :database do
