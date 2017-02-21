@@ -67,7 +67,7 @@ class TicketLinker
         begin
           open_issues = github.repo('modolabs/wombat-bastion')[:open_issues_count]
           count_thing = open_issues == 1 ? 'thing' : 'things'
-          "...also sonya has #{open_issues} #{count_thing} to do."
+          m.reply "...also sonya has #{open_issues} #{count_thing} to do."
         rescue
         end
       end
