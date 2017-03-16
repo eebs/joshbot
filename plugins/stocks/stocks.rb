@@ -9,7 +9,7 @@ class Stocks
   match /stock\s*(.+)$/, method: :stock
   def stock(m, symbols)
     output = ''
-    symbols.sub! " ",""
+    symbols.gsub! " ",""
     url = @symbols_url % symbols
     result = HTTPClient.new.get(url)
     if result.ok?
